@@ -1,0 +1,22 @@
+USE UNIVER
+select FACULTY.FACULTY [Факультет], PULPIT.PULPIT [Кафедра], PROFESSION.PROFESSION_NAME [Специальность], STUDENT.NAME [Имя студента], PROGRESS.SUBJECT [Предмет],
+Case
+when (PROGRESS.NOTE = 6) then N'шесть'
+when (PROGRESS.NOTE = 7) then N'семь'
+when (PROGRESS.NOTE = 8) then N'восемь'
+else N'>6'
+end [Оценка]
+from FACULTY 
+inner join PROFESSION on PROFESSION.FACULTY = FACULTY.FACULTY
+inner join ST_GROUP on ST_GROUP.FACULTY = FACULTY.FACULTY
+inner join STUDENT on ST_GROUP.IDGROUP = STUDENT.IDGROUP
+inner join PROGRESS on PROGRESS.IDSTUDENT = STUDENT.IDSTUDENT
+inner join SUBJECT on PROGRESS.SUBJECT = SUBJECT.SUBJECT
+inner join PULPIT on SUBJECT.PULPIT = PULPIT.PULPIT and (PROGRESS.NOTE = 6 or PROGRESS.NOTE = 7 or PROGRESS.NOTE = 8)
+order by
+(
+Case
+when (PROGRESS.NOTE = 6) then 3
+when (PROGRESS.NOTE = 7) then 1
+when (PROGRESS.NOTE = 8) then 2 end
+)

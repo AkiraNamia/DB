@@ -1,0 +1,1 @@
+SELECT Distinct Top(3) ФамилияСтудента, НомерГруппы from STUDENT order by (НомерГруппы) desc;
